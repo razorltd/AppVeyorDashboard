@@ -1,0 +1,43 @@
+﻿@using System.Text.RegularExpressions
+@using AppVeyorDashboard.Models.ViewDeployment
+@using Humanizer
+
+@model ViewDeploymentModel
+
+@{
+   Layout = null;
+}
+
+@{
+   var className = Model.Status == "success" ? "success" : 
+      Model.Status == "failed" ? "danger" : 
+         Model.Status == "cancelled" ? "warning" : 
+            Model.Status == "running" ? "info" : 
+               Model.Status == "queued" ? "info" : "";
+}
+
+<div class="@Regex.Replace(Model.EnvironmentName, "[^a-zA-z0-9-]", "-") @Model.Status @Model.FinishedAt.ToString("yyyy-MM-dd-HH-mm-ss") deployment col-4">
+   <div class="alert alert-@className">
+      <h3>@Model.EnvironmentName</h3>
+      <h5>
+         <span class="badge badge-pill badge-@className">@Model.Status</span>
+         <span class="badge badge-info">@Model.Version</span>
+      </h5>
+      <div>
+         Deployed 
+         @if (Model.FinishedAt > DateTime.MinValue)
+         {
+            <span class="no-wrap">@Model.FinishedAt.Humanize()</span>
+
+            if (Model.BuildTime != null)
+            {
+               <span class="no-wrap">in <em>@Model.BuildTime.Value.Humanize()</em></span>
+            }
+         }
+         else if (Model.BuildTime != null)
+         {
+            <span class="no-wrap"><em>@Model.BuildTime.Value.Humanize()</em></span>
+         }
+      </div>
+   </div>
+</div>

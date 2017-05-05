@@ -1,0 +1,10 @@
+﻿{
+   "IpAddressFilter": {
+      "AllowedIpAddresses": [ "::1" ]
+   },
+
+   "AppVeyorApi": {
+      "Token": "",
+      "Url": "https://ci.appveyor.com"
+   }
+}

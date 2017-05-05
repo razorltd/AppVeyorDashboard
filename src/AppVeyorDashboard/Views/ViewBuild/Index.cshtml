@@ -1,0 +1,80 @@
+﻿@using System.Text.RegularExpressions
+@using AppVeyorDashboard.Models.ViewBuild
+@using Humanizer;
+@model ViewBuildModel
+
+@{
+   Layout = null;
+}
+
+@{
+   var className = Model.Status == "success" 
+      ? "success" : Model.Status == "failed" 
+         ? "danger" : Model.Status == "cancelled" 
+            ? "warning" : Model.Status == "running" || Model.Status == "queued" 
+               ? "info" : "";
+}
+
+<tr class="@Model.ProjectSlug @Regex.Replace(Model.Branch, "[^a-zA-z0-9-]", "-") @Model.Status @Model.FinishedAt.ToString("yyyy-MM-dd-HH-mm-ss") @Model.ProjectSlug-@Regex.Replace(Model.Branch, "[^a-zA-z0-9-]", "-") alert alert-@className build">
+   <td title="@Model.ProjectName">
+      <h3>
+         @Model.ProjectName
+      </h3>
+      <h5>
+         <span class="badge badge-primary">@Model.Branch</span>
+         <span class="badge badge-info">@Model.Version</span>
+      </h5>
+   </td>
+   <td>
+      <h5>
+         <span class="badge badge-pill badge-@className">@Model.Status</span>
+
+         @if (Model.HasTimedOut)
+         {
+            <i class="fa fa-clock-o fa-lg"></i>
+         }
+      </h5>
+   </td>
+   <td>
+      Updated by <strong>@(Model.CommitterName ?? "unknown")</strong>
+      @if (Model.FinishedAt > DateTime.MinValue)
+      {
+         <span class="no-wrap">@Model.FinishedAt.Humanize()</span>
+
+         if (Model.BuildTime != null)
+         {
+            <span class="no-wrap">in <em>@Model.BuildTime.Value.Humanize()</em></span>
+         }
+      }
+      else if (Model.BuildTime != null)
+      {
+         <span class="no-wrap"><em>@Model.BuildTime.Value.Humanize()</em></span>
+      }
+   </td>
+   <td>
+      @if (@Model.CompilationErrorsCount != null)
+      {
+         if (@Model.CompilationErrorsCount == 1)
+         {
+            <text><strong>1</strong> compilation error</text>
+         }
+         else
+         {
+            <text><strong>@Model.CompilationErrorsCount</strong> compilation errors</text>
+         }
+      }
+   </td>
+   <td>
+      @if (@Model.TotalTestsCount != null)
+      {
+         @if (Model.TotalTestsCount > 0)
+         {
+            <text><strong>@Model.PassedTestsCount</strong> out of <strong>@Model.TotalTestsCount</strong> tests passed (<strong>@(((decimal)Model.PassedTestsCount / Model.TotalTestsCount).Value.ToString("P0"))</strong>)</text>
+         }
+         else
+         {
+            <text><strong>No tests found</strong></text>
+         }
+      }
+   </td>
+</tr>

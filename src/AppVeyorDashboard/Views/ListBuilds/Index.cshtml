@@ -1,0 +1,212 @@
+﻿@using AppVeyorDashboard.Models.ListBuilds
+
+@model ListBuildsModel
+
+<div class="container-fluid">
+   @if (!Model.Projects.Any())
+   {
+      <div class="alert alert-info">No projects found.</div>
+   }
+   else
+   {
+      <table class="builds">
+      </table>
+   }
+</div>
+
+@section Styles
+{
+   <style>
+      body {
+         font-size: 16px;
+      }
+
+      .container-fluid {
+         padding: 0;
+      }
+
+      table {
+         margin-bottom: 0;
+         width: 100%;
+      }
+
+         table td {
+            vertical-align: middle;
+         }
+
+      .no-wrap {
+         white-space: pre;
+      }
+
+      .build.running {
+         -moz-animation-duration: 2s;
+         -moz-animation-iteration-count: infinite;
+         -moz-animation-name: blinker;
+         -moz-animation-timing-function: linear;
+         -webkit-animation-duration: 2s;
+         -webkit-animation-iteration-count: infinite;
+         -webkit-animation-name: blinker;
+         -webkit-animation-timing-function: linear;
+         animation-duration: 2s;
+         animation-iteration-count: infinite;
+         animation-name: blinker;
+         animation-timing-function: linear;
+      }
+
+      .build h4 {
+         display: inline;
+      }
+
+      .build h3 {
+         line-height: 1.3em;
+         margin-top: 0;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+      }
+
+      .build .label {
+         line-height: 30px;
+      }
+
+      .build .tests {
+         margin-right: 45px;
+      }
+
+      @@keyframes blinker {
+         0% {
+            opacity: 1.0;
+         }
+
+         50% {
+            opacity: 0.0;
+         }
+
+         100% {
+            opacity: 1.0;
+         }
+      }
+
+      @@-moz-keyframes blinker {
+         0% {
+            opacity: 1.0;
+         }
+
+         50% {
+            opacity: 0.0;
+         }
+
+         100% {
+            opacity: 1.0;
+         }
+      }
+
+      @@-webkit-keyframes blinker {
+         0% {
+            opacity: 1.0;
+         }
+
+         50% {
+            opacity: 0.0;
+         }
+
+         100% {
+            opacity: 1.0;
+         }
+      }
+   </style>
+}
+
+@section Scripts
+{
+   <script>
+      ;
+      (function () {
+         var statuses = ['running', 'queued', 'failed', 'success'];
+         var $builds = $('.builds');
+         var model = {
+            branch: '@Model.Branch',
+            projects: [
+               @foreach (var project in Model.Projects)
+               {
+                  <text>{ accountName: "@project.AccountName", slug: "@project.Slug" },</text>
+               }
+            ]
+         };
+         var refresh = function (projects) {
+            projects.forEach(function (project) {
+               $.ajax({
+                  url: '/branches/' + project.accountName + '/' + project.slug + '?branch=' + encodeURI(model.branch),
+                  success: function (data) {
+                     var branches = data.branches;
+
+                     branches.forEach(function (branch) {
+                        $.ajax({
+                           url: '/builds/' + project.accountName + '/' + project.slug + '?branch=' + encodeURI(branch),
+                           success: function (data) {
+                              var $build = $('.' + project.slug + '-' + branch.replace(/[^a-zA-z0-9-]/g, '-'));
+                              if ($build.length) {
+                                 $build.replaceWith(data);
+                              } else {
+                                 $builds.append(data);
+                              }
+
+                              var $rows = $builds.children('tr');
+                              var rows = [];
+                              $rows.each(function (i, e) {
+                                 var classNameParts = e.className.split(' ');
+                                 rows.push({
+                                    slug: classNameParts[0],
+                                    branch: classNameParts[1].replace(/[^a-zA-z0-9-]/g, '-'),
+                                    status: classNameParts[2],
+                                    finishedAt: classNameParts[3]
+                                 });
+                              });
+
+                              rows.sort(function (a, b) {
+                                 if (statuses.indexOf(a.status) > statuses.indexOf(b.status)) {
+                                    return 1;
+                                 }
+                                 else if (statuses.indexOf(a.status) < statuses.indexOf(b.status)) {
+                                    return -1;
+                                 }
+                                 else {
+                                    if (a.finishedAt < b.finishedAt) {
+                                       return 1;
+                                    }
+                                    else if (a.finishedAt > b.finishedAt) {
+                                       return -1;
+                                    }
+                                 }
+
+                                 return 0;
+                              });
+
+                              rows.forEach(function (row) {
+                                 $builds.append($builds.find('.' + row.slug + '-' + row.branch));
+                              });
+                           }
+                        });
+                     });
+                  }
+               });
+            });
+         };
+
+         refresh(model.projects);
+
+         setInterval(function() {
+            refresh(model.projects);
+         }, 30000);
+
+         setInterval(function() {
+            $.ajax({
+               url: '@Url.RouteUrl($"ListBuilds{ViewContext.HttpContext.Request.QueryString}", new { Model.Branch })',
+               success: function(data) {
+                  model = data;
+               }
+            });
+         }, 60000);
+      })();
+   </script>
+}
