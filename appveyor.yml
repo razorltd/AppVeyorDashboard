@@ -5,7 +5,7 @@
     only:
     - master
   
-  version: 0.15.0.{build}
+  version: 0.1.0
   
   skip_tags: true
 

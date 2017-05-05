@@ -12,8 +12,7 @@
    var className = Model.Status == "success" ? "success" : 
       Model.Status == "failed" ? "danger" : 
          Model.Status == "cancelled" ? "warning" : 
-            Model.Status == "running" ? "info" : 
-               Model.Status == "queued" ? "info" : "";
+            Model.Status == "running" || Model.Status == "queued" ? "info" : "";
 }
 
 <div class="@Regex.Replace(Model.EnvironmentName, "[^a-zA-z0-9-]", "-") @Model.Status @Model.FinishedAt.ToString("yyyy-MM-dd-HH-mm-ss") deployment col-4">

@@ -1,5 +1,7 @@
 # AppVeyor Dashboard
 
+[![Build status](https://ci.appveyor.com/api/projects/status/vyau4m2ls0hqljss/branch/master?svg=true)](https://ci.appveyor.com/project/Razor/appveyordashboard/branch/master)
+
 ## Builds
 
 `~/builds`
