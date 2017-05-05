@@ -5,7 +5,7 @@
     only:
     - master
   
-  version: 0.1.1
+  version: 0.1.2
   
   skip_tags: true
 
@@ -33,9 +33,6 @@
 
   cache:
     - packages -> **\packages.config
-      
-  on_success:
-    - ps: .\tag-repository.ps1
 
   on_failure:
     - ps: Update-AppveyorBuild -Version "$($Env:APPVEYOR_BUILD_VERSION).$($Env:APPVEYOR_BUILD_NUMBER)-fail"
