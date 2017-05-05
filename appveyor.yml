@@ -5,7 +5,7 @@
     only:
     - master
   
-  version: 0.1.0
+  version: 0.1.1
   
   skip_tags: true
 
@@ -20,7 +20,7 @@
     - appveyor-retry dotnet restore
 
   after_build:
-    - dotnet publish "%APPVEYOR_BUILD_FOLDER%\src\AppVeyorDashboard" --configuration %CONFIGURATION% --output "%APPVEYOR_BUILD_FOLDER%\artifacts\AppVeyorDashboard" --no-build
+    - dotnet publish "%APPVEYOR_BUILD_FOLDER%\src\AppVeyorDashboard" --configuration %CONFIGURATION% --output "%APPVEYOR_BUILD_FOLDER%\artifacts\AppVeyorDashboard"
      
   artifacts:
     - path: Artifacts\AppveyorDashboard
