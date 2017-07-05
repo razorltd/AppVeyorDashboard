@@ -136,13 +136,13 @@
          var refresh = function (projects) {
             projects.forEach(function (project) {
                $.ajax({
-                  url: '/branches/' + project.accountName + '/' + project.slug + '?branch=' + encodeURI(model.branch),
+                  url: '/branches/' + encodeURI(project.accountName) + '/' + encodeURI(project.slug) + '?branch=' + encodeURI(model.branch || ""),
                   success: function (data) {
                      var branches = data.branches;
 
                      branches.forEach(function (branch) {
                         $.ajax({
-                           url: '/builds/' + project.accountName + '/' + project.slug + '?branch=' + encodeURI(branch),
+                           url: '/builds/' + encodeURI(project.accountName) + '/' + encodeURI(project.slug )+ '?branch=' + encodeURI(branch || ""),
                            success: function (data) {
                               var $build = $('.' + project.slug + '-' + branch.replace(/[^a-zA-z0-9-]/g, '-'));
                               if ($build.length) {

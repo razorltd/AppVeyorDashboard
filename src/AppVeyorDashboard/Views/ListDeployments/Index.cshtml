@@ -126,7 +126,7 @@
          var refresh = function(deployments) {
             deployments.forEach(function(deployment) {
                $.ajax({
-                  url: '/deployments/' + deployment.deploymentEnvironmentId,
+                  url: '/deployments/' + encodeURI(deployment.deploymentEnvironmentId),
                   success: function (data) {
                      var $deployment = $('.' + deployment.environmentName.replace(/[^a-zA-z0-9-]/g, '-'));
                      if ($deployment.length) {

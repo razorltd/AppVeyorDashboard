@@ -14,7 +14,6 @@ namespace AppVeyorDashboard.Core.AppVeyor.Builds
          _httpClient = httpClient;
       }
 
-
       public async Task<ViewBuildProjection> View(ViewBuildQuery query)
       {
          var response = await _httpClient.GetAsync($"projects/{query.AccountName}/{query.ProjectSlug}/branch/{query.Branch}");
