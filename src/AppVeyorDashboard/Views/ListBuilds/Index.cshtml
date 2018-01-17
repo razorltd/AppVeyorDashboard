@@ -121,7 +121,7 @@
 {
    <script>
       ;
-      (function () {
+      (function ($) {
          var statuses = ['running', 'queued', 'failed', 'success'];
          var $builds = $('.builds');
          var model = {
@@ -144,7 +144,8 @@
                         $.ajax({
                            url: '/builds/' + encodeURI(project.accountName) + '/' + encodeURI(project.slug )+ '?branch=' + encodeURI(branch || ""),
                            success: function (data) {
-                              var $build = $('.' + project.slug + '-' + branch.replace(/[^a-zA-z0-9-]/g, '-'));
+                              var $build = $('.' + project.slug + '-' + branch.replace(/&[^;]+;/g, '-').replace(/[^a-zA-Z0-9-]/g, '-').replace(/--+/g, '-').replace(/^-|-$/, '').toLowerCase());
+
                               if ($build.length) {
                                  $build.replaceWith(data);
                               } else {
@@ -157,7 +158,7 @@
                                  var classNameParts = e.className.split(' ');
                                  rows.push({
                                     slug: classNameParts[0],
-                                    branch: classNameParts[1].replace(/[^a-zA-z0-9-]/g, '-'),
+                                    branch: classNameParts[1].replace(/&[^;]+;/g, '-').replace(/[^a-zA-Z0-9-]/g, '-').replace(/--+/g, '-').replace(/^-|-$/, '').toLowerCase(),
                                     status: classNameParts[2],
                                     finishedAt: classNameParts[3]
                                  });
@@ -196,17 +197,14 @@
          refresh(model.projects);
 
          setInterval(function() {
-            refresh(model.projects);
-         }, 30000);
-
-         setInterval(function() {
             $.ajax({
                url: '@Url.RouteUrl($"ListBuilds{ViewContext.HttpContext.Request.QueryString}", new { Model.Branch })',
                success: function(data) {
                   model = data;
+                  refresh(model.projects);
                }
             });
          }, 60000);
-      })();
+      })(window.jQuery);
    </script>
 }

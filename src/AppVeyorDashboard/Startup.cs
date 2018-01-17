@@ -19,7 +19,7 @@
       {
          var configurationBuilder = new ConfigurationBuilder()
             .SetBasePath(hostingEnvironment.ContentRootPath)
-            .AddJsonFile("config.json", false, true)
+            .AddJsonFile("appsettings.json", false, true)
             .AddEnvironmentVariables();
 
          if (hostingEnvironment.IsDevelopment())

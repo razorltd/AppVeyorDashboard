@@ -112,7 +112,7 @@
 {
    <script>
       ;
-      (function() {
+      (function($) {
          var statuses = ['running', 'queued', 'failed', 'success'];
          var $deployments = $('.deployments');
          var model = {
@@ -128,7 +128,8 @@
                $.ajax({
                   url: '/deployments/' + encodeURI(deployment.deploymentEnvironmentId),
                   success: function (data) {
-                     var $deployment = $('.' + deployment.environmentName.replace(/[^a-zA-z0-9-]/g, '-'));
+                     var $deployment = $('.' + deployment.environmentName.replace(/&[^;]+;/g, '-').replace(/[^a-zA-Z0-9-]/g, '-').replace(/--+/g, '-').replace(/^-|-$/, '').toLowerCase());
+
                      if ($deployment.length) {
                         $deployment.replaceWith(data);
                      } else {
@@ -176,18 +177,15 @@
          refresh(model.deployments);
 
          setInterval(function() {
-            refresh(model.deployments);
-         }, 5000);
-
-         setInterval(function() {
             $.ajax({
                url: '@Url.RouteUrl($"ListDeployments{ViewContext.HttpContext.Request.QueryString}")',
                success: function (data) {
                      model = data;
+                     refresh(model.deployments);
                   }
                });
             },
-            5000);
-      })();
+            60000);
+      })(window.jQuery);
    </script>
 }

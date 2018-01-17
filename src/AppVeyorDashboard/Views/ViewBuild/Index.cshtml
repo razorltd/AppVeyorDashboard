@@ -15,7 +15,7 @@
                ? "info" : "";
 }
 
-<tr class="@Model.ProjectSlug @Regex.Replace(Model.Branch, "[^a-zA-z0-9-]", "-") @Model.Status @Model.FinishedAt.ToString("yyyy-MM-dd-HH-mm-ss") @Model.ProjectSlug-@Regex.Replace(Model.Branch, "[^a-zA-z0-9-]", "-") alert alert-@className build">
+<tr class="@Model.ProjectSlug @Regex.Replace(Regex.Replace(Model.Branch, "[^a-zA-Z0-9-]", "-"), "--+", "-").Trim('-').ToLower() @Model.Status @Model.FinishedAt.ToString("yyyy-MM-dd-HH-mm-ss-fff") @Model.ProjectSlug-@Regex.Replace(Regex.Replace(Model.Branch, "[^a-zA-Z0-9-]", "-"), "--+", "-").Trim('-').ToLower() alert alert-@className build">
    <td title="@Model.ProjectName">
       <h3>
          @Model.ProjectName

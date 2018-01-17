@@ -25,7 +25,9 @@
          (
             projection.Environments
                .Where(e => string.IsNullOrWhiteSpace(environment) || Regex.IsMatch(e.EnvironmentName, environment, RegexOptions.IgnoreCase))
-               .Select(e => new Deployment(e.DeploymentEnvironmentId, e.EnvironmentName))
+               .GroupBy(d => d.EnvironmentName)
+               .Select(g => new Deployment(g.OrderByDescending(e => e.DeploymentEnvironmentId).Select(e => e.DeploymentEnvironmentId).First(), g.Key))
+               .OrderByDescending(d => d.DeploymentEnvironmentId)
                .ToList()
          );
 

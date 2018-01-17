@@ -1,38 +1,43 @@
 # AppVeyor Dashboard
 
+image: Visual Studio 2017
+  
+skip_tags: true
+  
+init:
+  - git config --global core.autocrlf input
+
+configuration: Release
+
+before_build:
+  - appveyor-retry dotnet restore
+
+after_build:
+  - dotnet publish "%APPVEYOR_BUILD_FOLDER%\src\AppVeyorDashboard" --configuration %CONFIGURATION% --output "%APPVEYOR_BUILD_FOLDER%\artifacts\AppVeyorDashboard"
+ 
+artifacts:
+  - path: Artifacts\AppveyorDashboard
+    name: AppVeyorDashboard
+    type: zip
+
+on_failure:
+- ps: Update-AppveyorBuild -Version "$($Env:APPVEYOR_BUILD_VERSION).$($Env:APPVEYOR_BUILD_NUMBER)-fail"
+
+for:
 -
   branches:
     only:
     - master
   
-  version: 0.1.3
-  
-  skip_tags: true
-
-  image: Visual Studio 2015
-      
-  init:
-    - git config --global core.autocrlf input
-  
-  configuration: Release
-
-  before_build:
-    - appveyor-retry dotnet restore
-
-  after_build:
-    - dotnet publish "%APPVEYOR_BUILD_FOLDER%\src\AppVeyorDashboard" --configuration %CONFIGURATION% --output "%APPVEYOR_BUILD_FOLDER%\artifacts\AppVeyorDashboard"
-     
-  artifacts:
-    - path: Artifacts\AppveyorDashboard
-      name: AppVeyorDashboard
-      type: zip
+  version: 0.1.4
 
   deploy:
     - provider: Environment
       name: AppVeyor Dashboard
 
-  cache:
-    - packages -> **\packages.config
-
-  on_failure:
-    - ps: Update-AppveyorBuild -Version "$($Env:APPVEYOR_BUILD_VERSION).$($Env:APPVEYOR_BUILD_NUMBER)-fail"
+-
+  branches:
+    except:
+    - master
+  
+  version: 0.1.4.{build}-{branch}
