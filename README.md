@@ -4,7 +4,7 @@
 
 ## Builds
 
-![appveyor-dashboard-builds](https://raw.githubusercontent.com/razorltd/appveyordashboard/master/appveyor-dashboard-builds.png)
+![appveyor-dashboard-builds](https://raw.githubusercontent.com/razorltd/appveyordashboard/master/appveyor-dashboard-builds.gif)
 
 `~/builds`
 
@@ -17,7 +17,7 @@ e.g. `~/builds?project=AppVeyor%20Dashboard&branch=master`
 
 ## Deployments
 
-![appveyor-dashboard-deployments](https://raw.githubusercontent.com/razorltd/appveyordashboard/master/appveyor-dashboard-deployments.png)
+![appveyor-dashboard-deployments](https://raw.githubusercontent.com/razorltd/appveyordashboard/master/appveyor-dashboard-deployments.gif)
 
 `~/deployments`
 
