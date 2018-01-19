@@ -4,6 +4,8 @@
 
 ## Builds
 
+![appveyor-dashboard-builds](https://raw.githubusercontent.com/razorltd/appveyordashboard/master/appveyor-dashboard-builds.png)
+
 `~/builds`
 
 ### Query String Parameters (optional)
@@ -14,6 +16,8 @@
 e.g. `~/builds?project=AppVeyor%20Dashboard&branch=master`
 
 ## Deployments
+
+![appveyor-dashboard-deployments](https://raw.githubusercontent.com/razorltd/appveyordashboard/master/appveyor-dashboard-deployments.png)
 
 `~/deployments`
 
