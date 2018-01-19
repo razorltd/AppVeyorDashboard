@@ -52,7 +52,7 @@
       }
    </td>
    <td>
-      @if (@Model.CompilationErrorsCount != null)
+      @if (Model.FinishedAt > DateTime.MinValue && Model.CompilationErrorsCount != null)
       {
          if (@Model.CompilationErrorsCount == 1)
          {
@@ -65,9 +65,9 @@
       }
    </td>
    <td>
-      @if (@Model.TotalTestsCount != null)
+      @if (Model.FinishedAt > DateTime.MinValue && Model.TotalTestsCount != null)
       {
-         @if (Model.TotalTestsCount > 0)
+         if (Model.TotalTestsCount > 0)
          {
             <text><strong>@Model.PassedTestsCount</strong> out of <strong>@Model.TotalTestsCount</strong> tests passed (<strong>@(((decimal)Model.PassedTestsCount / Model.TotalTestsCount).Value.ToString("P0"))</strong>)</text>
          }

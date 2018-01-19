@@ -13,7 +13,7 @@
          FinishedAt = finishedAt;
       }
 
-      public TimeSpan? BuildTime
+      public TimeSpan? DeploymentTime
       {
          get
          {

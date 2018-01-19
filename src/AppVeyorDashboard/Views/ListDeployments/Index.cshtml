@@ -25,44 +25,44 @@
          padding-top: 20px;
          padding-bottom: 20px;
       }
-      
+
       .deployment {
          display: flex;
       }
 
-      .deployment > .alert {
-         width: 100%;
-      }
+         .deployment > .alert {
+            width: 100%;
+         }
 
-      .deployment.running {
-         -moz-animation-duration: 2s;
-         -moz-animation-iteration-count: infinite;
-         -moz-animation-name: blinker;
-         -moz-animation-timing-function: linear;
-         -webkit-animation-duration: 2s;
-         -webkit-animation-iteration-count: infinite;
-         -webkit-animation-name: blinker;
-         -webkit-animation-timing-function: linear;
-         animation-duration: 2s;
-         animation-iteration-count: infinite;
-         animation-name: blinker;
-         animation-timing-function: linear;
-      }
+         .deployment.running {
+            -moz-animation-duration: 2s;
+            -moz-animation-iteration-count: infinite;
+            -moz-animation-name: blinker;
+            -moz-animation-timing-function: linear;
+            -webkit-animation-duration: 2s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-name: blinker;
+            -webkit-animation-timing-function: linear;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-name: blinker;
+            animation-timing-function: linear;
+         }
 
-      .deployment h3 {
-         word-break: break-all;   
-      }
+         .deployment h3 {
+            word-break: break-all;
+         }
 
-      .deployment span.badge {
-         display: inline-block;
-         overflow: hidden;
-      }
+         .deployment span.badge {
+            display: inline-block;
+            overflow: hidden;
+         }
 
-      .deployment span.badge.badge-info {
-         white-space: nowrap;
-         text-overflow: ellipsis;
-         max-width: 100%;
-      }
+            .deployment span.badge.badge-info {
+               white-space: nowrap;
+               text-overflow: ellipsis;
+               max-width: 100%;
+            }
 
       @@keyframes blinker {
          0% {
@@ -109,7 +109,7 @@
 }
 
 @section Scripts
-{
+   {
    <script>
       ;
       (function($) {

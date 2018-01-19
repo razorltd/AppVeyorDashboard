@@ -22,21 +22,17 @@
          <span class="badge badge-pill badge-@className">@Model.Status</span>
          <span class="badge badge-info">@Model.Version</span>
       </h5>
-      <div>
-         Deployed 
-         @if (Model.FinishedAt > DateTime.MinValue)
-         {
+      @if (Model.FinishedAt > DateTime.MinValue)
+      {
+         <div>
+            Deployed
             <span class="no-wrap">@Model.FinishedAt.Humanize()</span>
 
-            if (Model.BuildTime != null)
+            @if (Model.DeploymentTime != null)
             {
-               <span class="no-wrap">in <em>@Model.BuildTime.Value.Humanize()</em></span>
+               <span class="no-wrap">in <em>@Model.DeploymentTime.Value.Humanize()</em></span>
             }
-         }
-         else if (Model.BuildTime != null)
-         {
-            <span class="no-wrap"><em>@Model.BuildTime.Value.Humanize()</em></span>
-         }
-      </div>
+         </div>
+      }
    </div>
 </div>
