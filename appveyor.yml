@@ -29,15 +29,11 @@ for:
     only:
     - master
   
-  version: 0.1.6
-
-  deploy:
-    - provider: Environment
-      name: AppVeyor Dashboard
+  version: 1.0.0
 
 -
   branches:
     except:
     - master
   
-  version: 0.1.6.{build}-{branch}
+  version: 1.0.0.{build}-{branch}

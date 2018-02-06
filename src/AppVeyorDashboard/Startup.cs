@@ -9,8 +9,6 @@
    using Microsoft.AspNetCore.Hosting;
    using Microsoft.Extensions.Configuration;
    using Microsoft.Extensions.DependencyInjection;
-   using Middleware;
-   using Middleware.IpAddressFilter;
    using Newtonsoft.Json.Converters;
 
    public class Startup
@@ -38,8 +36,7 @@
          {
             applicationBuilder.UseDeveloperExceptionPage();
          }
-
-         applicationBuilder.UseIpAddressFilter();
+         
          applicationBuilder.UseMvc();
          applicationBuilder.UseStaticFiles();
       }
@@ -47,8 +44,7 @@
       public IServiceProvider ConfigureServices(IServiceCollection services)
       {
          services.AddOptions()
-                 .Configure<AppVeyorApiConfiguration>(o => Configuration.GetSection("AppVeyorApi").Bind(o))
-                 .Configure<IpAddressFilterConfiguration>(o => Configuration.GetSection("IpAddressFilter").Bind(o));
+                 .Configure<AppVeyorApiConfiguration>(o => Configuration.GetSection("AppVeyorApi").Bind(o));
          services.AddRouting(o =>
                   {
                      o.AppendTrailingSlash = false;

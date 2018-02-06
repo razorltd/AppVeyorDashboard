@@ -41,5 +41,9 @@
       <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
    </ItemGroup>
 
-   <ProjectExtensions><VisualStudio><UserProperties config_1json__JSONSchema="http://json.schemastore.org/docfx" /></VisualStudio></ProjectExtensions>
+   <ItemGroup>
+     <Folder Include="Middleware\" />
+   </ItemGroup>
+
+   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>
